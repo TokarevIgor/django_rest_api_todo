@@ -4,7 +4,7 @@ from userapp.serializers import TodoUserModelSerializer
 
 
 class ProjectModelSerializer(ModelSerializer):
-    users = TodoUserModelSerializer(many=True)
+    #users = TodoUserModelSerializer(many=True)
 
     class Meta:
         model = Project
@@ -12,8 +12,8 @@ class ProjectModelSerializer(ModelSerializer):
 
 
 class TodoModelSerializer(ModelSerializer):
-    project = ProjectModelSerializer()
-    user = TodoUserModelSerializer()
+    #project = ProjectModelSerializer()
+    #user = TodoUserModelSerializer()
 
     class Meta:
         model = Todo

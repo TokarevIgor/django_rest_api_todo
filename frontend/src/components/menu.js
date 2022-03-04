@@ -1,13 +1,7 @@
-import React from 'react'
-
+import React from "react";
 
 const Menu = ({}) => {
-   return (
-       <div>
-           это меню
-       </div>
-   )
-}
+  return <div></div>;
+};
 
-
-export default Menu
+export default Menu;

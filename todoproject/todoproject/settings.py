@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'userapp',
+    'rest_framework.authtoken',
     'mainapp'
 ]
 
@@ -128,7 +129,17 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 100,
+    'DEFAULT_PERMISSION_CLASSES': [
+        # isAuth - тестировал дополнительно
+        # 'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
 if DEBUG:

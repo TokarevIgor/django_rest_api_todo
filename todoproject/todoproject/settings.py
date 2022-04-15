@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'mainapp',
     'drf_yasg',
+    "graphene_django",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -150,6 +151,27 @@ if DEBUG:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append(
         'rest_framework.renderers.BrowsableAPIRenderer')
 
+GRAPHENE = {
+    'SCHEMA': 'todoproject.schema.schema'
+}
+
+"""
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console']
+        }
+    }
+}
+"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django_filters',
     'userapp',
     'rest_framework.authtoken',
-    'mainapp'
+    'mainapp',
+    'drf_yasg',
 ]
 
 CORS_ALLOWED_ORIGINS = [

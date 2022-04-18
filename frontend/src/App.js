@@ -2,7 +2,10 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import UserList from "./components/userList";
+import ProjectSearchForm from "./components/projectSearchForm";
 import TodoList from "./components/todoList";
+import TodoForm from "./components/todoForm";
+import ProjectForm from "./components/projectForm";
 import ProjectList from "./components/projectList";
 import ProjectTodoList from "./components/projectTodoList";
 import Menu from "./components/menu.js";
@@ -118,6 +121,71 @@ class App extends React.Component {
     this.setState({ token: token });
   }
 
+  newProject(title, users) {
+    let headers = this.getHeader();
+    console.log(title, users);
+    axios
+      .post(
+        "http://127.0.0.1:8000/api/project/",
+        { title: title, users: users },
+        { headers }
+      )
+      .then((response) => {
+        this.getData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  deleteProject(id) {
+    let headers = this.getHeader();
+    axios
+      .delete(`http://127.0.0.1:8000/api/project/${id}`, { headers })
+      .then((response) => {
+        this.setState({
+          projects: this.state.projects.filter((project) => project.id != id),
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  newTodo(text, project, user) {
+    let headers = this.getHeader();
+    console.log(text, project, user);
+    axios
+      .post(
+        "http://127.0.0.1:8000/api/todo/",
+        { text: text, project: project, user: user },
+        { headers }
+      )
+      .then((response) => {
+        this.getData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  deleteTodo(id) {
+    let headers = this.getHeader();
+    axios
+      .delete(`http://127.0.0.1:8000/api/todo/${id}`, { headers })
+      .then((response) => {
+        let todo = this.state.todos.find((todo) => todo.id == id);
+        todo.isActive = false;
+        console.log(todo);
+        this.setState({
+          todos: this.state.todos,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <div>
@@ -130,7 +198,16 @@ class App extends React.Component {
               <Link to="/projects">Projects</Link>
             </li>
             <li>
+              <Link to="/project/create">New project</Link>
+            </li>
+            <li>
+              <Link to="/project/search">Search project</Link>
+            </li>
+            <li>
               <Link to="/todos">Todos</Link>
+            </li>
+            <li>
+              <Link to="/todo/create">New Todo</Link>
             </li>
             <li>
               {this.isAuth() ? (
@@ -149,16 +226,64 @@ class App extends React.Component {
             <Route
               exact
               path="/projects"
-              element={<ProjectList projects={this.state.projects} />}
+              element={
+                <ProjectList
+                  projects={this.state.projects}
+                  deleteProject={(id) => this.deleteProject(id)}
+                />
+              }
             />
             <Route
               path="/project/:id"
-              element={<ProjectTodoList todos={this.state.todos} />}
+              element={
+                <ProjectTodoList
+                  todos={this.state.todos}
+                  deleteTodo={(id) => this.deleteTodo(id)}
+                />
+              }
             />
             <Route
               exact
               path="/todos"
-              element={<TodoList todos={this.state.todos} />}
+              element={
+                <TodoList
+                  todos={this.state.todos}
+                  deleteTodo={(id) => this.deleteTodo(id)}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/todo/create"
+              element={
+                <TodoForm
+                  users={this.state.users}
+                  projects={this.state.projects}
+                  newTodo={(text, project, user) =>
+                    this.newTodo(text, project, user)
+                  }
+                />
+              }
+            />
+            <Route
+              exact
+              path="/project/create"
+              element={
+                <ProjectForm
+                  users={this.state.users}
+                  newProject={(title, users) => this.newProject(title, users)}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/project/search"
+              element={
+                <ProjectSearchForm
+                  projects={this.state.projects}
+                  deleteProject={(id) => this.deleteProject(id)}
+                />
+              }
             />
             <Route exact path="/users" element={<Navigate to="/" />} />
             <Route

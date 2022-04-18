@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django_filters',
     'userapp',
     'rest_framework.authtoken',
-    'mainapp'
+    'mainapp',
+    'drf_yasg',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -140,6 +141,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_VERSIONING_CLASS':
+        'rest_framework.versioning.AcceptHeaderVersioning',
+
 }
 
 if DEBUG:

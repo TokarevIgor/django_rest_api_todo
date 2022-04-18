@@ -118,6 +118,37 @@ class App extends React.Component {
     this.setState({ token: token });
   }
 
+  deleteProject(id) {
+    let headers = this.getHeader();
+    axios
+      .delete(`http://127.0.0.1:8000/api/project/${id}`, { headers })
+      .then((response) => {
+        this.setState({
+          projects: this.state.projects.filter((project) => project.id != id),
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  deleteTodo(id) {
+    let headers = this.getHeader();
+    axios
+      .delete(`http://127.0.0.1:8000/api/todo/${id}`, { headers })
+      .then((response) => {
+        let todo = this.state.todos.find((todo) => todo.id == id);
+        todo.isActive = false;
+        console.log(todo);
+        this.setState({
+          todos: this.state.todos,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <div>
@@ -149,16 +180,31 @@ class App extends React.Component {
             <Route
               exact
               path="/projects"
-              element={<ProjectList projects={this.state.projects} />}
+              element={
+                <ProjectList
+                  projects={this.state.projects}
+                  deleteProject={(id) => this.deleteProject(id)}
+                />
+              }
             />
             <Route
               path="/project/:id"
-              element={<ProjectTodoList todos={this.state.todos} />}
+              element={
+                <ProjectTodoList
+                  todos={this.state.todos}
+                  deleteTodo={(id) => this.deleteTodo(id)}
+                />
+              }
             />
             <Route
               exact
               path="/todos"
-              element={<TodoList todos={this.state.todos} />}
+              element={
+                <TodoList
+                  todos={this.state.todos}
+                  deleteTodo={(id) => this.deleteTodo(id)}
+                />
+              }
             />
             <Route exact path="/users" element={<Navigate to="/" />} />
             <Route

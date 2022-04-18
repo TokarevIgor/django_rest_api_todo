@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import UserList from "./components/userList";
+import ProjectSearchForm from "./components/projectSearchForm";
 import TodoList from "./components/todoList";
 import TodoForm from "./components/todoForm";
 import ProjectForm from "./components/projectForm";
@@ -200,6 +201,9 @@ class App extends React.Component {
               <Link to="/project/create">New project</Link>
             </li>
             <li>
+              <Link to="/project/search">Search project</Link>
+            </li>
+            <li>
               <Link to="/todos">Todos</Link>
             </li>
             <li>
@@ -268,6 +272,16 @@ class App extends React.Component {
                 <ProjectForm
                   users={this.state.users}
                   newProject={(title, users) => this.newProject(title, users)}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/project/search"
+              element={
+                <ProjectSearchForm
+                  projects={this.state.projects}
+                  deleteProject={(id) => this.deleteProject(id)}
                 />
               }
             />

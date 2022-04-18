@@ -5,8 +5,8 @@ class TodoForm extends React.Component {
     super(props);
     this.state = {
       text: "",
-      project: "",
-      user: "",
+      project: props.projects[0].id,
+      user: props.users[0].id,
     };
   }
 
@@ -54,24 +54,38 @@ class TodoForm extends React.Component {
   render() {
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
-        <input
-          type="text"
-          name="text"
-          placeholder="text"
-          onChange={(event) => this.handleTextChange(event)}
-          value={this.state.text}
-        />
-        <select onChange={(event) => this.handleProjectChange(event)}>
-          {this.props.projects.map((project) => (
-            <option value={project.id}>{project.title}</option>
-          ))}
-        </select>
-        <select onChange={(event) => this.handleUserChange(event)}>
-          {this.props.users.map((user) => (
-            <option value={user.id}>{user.username}</option>
-          ))}
-        </select>
-        <input type="submit" value="Create" />
+        <div className="form-group">
+          <label for="text">Заметка </label>
+          <input
+            type="text"
+            className="form-control"
+            name="text"
+            placeholder="text"
+            onChange={(event) => this.handleTextChange(event)}
+            value={this.state.text}
+          />
+        </div>
+        <div className="form-group">
+          <label for="project">Проект </label>
+          <select
+            name="project"
+            onChange={(event) => this.handleProjectChange(event)}
+          >
+            {this.props.projects.map((project) => (
+              <option value={project.id}>{project.title}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label for="project">Автор </label>
+          <select onChange={(event) => this.handleUserChange(event)}>
+            {this.props.users.map((user) => (
+              <option value={user.id}>{user.username}</option>
+            ))}
+          </select>
+        </div>
+
+        <input type="submit" className="btn btn-primary" value="Create" />
       </form>
     );
   }

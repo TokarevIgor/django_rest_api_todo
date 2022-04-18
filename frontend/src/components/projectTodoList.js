@@ -21,21 +21,19 @@ const ProjectTodoList = ({ todos, deleteTodo }) => {
   let { id } = useParams();
   let filteredTodos = todos.filter((todo) => todo.project == parseInt(id));
 
-  return (
-    (<h1> Заметки проекта {id}</h1>),
-    (
-      <table>
-        <th> Проект </th>
-        <th> Пользователь </th>
-        <th> Заметка </th>
-        <th> Активная </th>
-        <th></th>
-        {filteredTodos.map((todo) => (
-          <TodoItem todo={todo} deleteTodo={deleteTodo} />
-        ))}
-      </table>
-    )
-  );
+  return [
+    <h1> Заметки проекта {id}</h1>,
+    <table>
+      <th> Проект </th>
+      <th> Пользователь </th>
+      <th> Заметка </th>
+      <th> Активная </th>
+      <th></th>
+      {filteredTodos.map((todo) => (
+        <TodoItem todo={todo} deleteTodo={deleteTodo} />
+      ))}
+    </table>,
+  ];
 };
 
 export default ProjectTodoList;
